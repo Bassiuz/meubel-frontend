@@ -2,103 +2,48 @@
 
   <div class="hello">
     <h1>{{ msg }}</h1>
-  <h2>{{ping.message}}</h2>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+<input v-model="naam" placeholder="vul in">
+  <button v-on:click="searchMeubel">naam</button>
+
+  <h1 v-if="meubels !== null && meubels.length > 0">Ja! {{submittedNaam}} is een meubel!</h1>
+  <h1 v-if="meubels !== null && meubels.length === 0">Helaas, {{submittedNaam}} is geen meubel</h1>
+
+  <div v-for="meubel in meubels" v-bind:key="meubel.name">
+    {{ meubel.name }}
+    <img :src="meubel.imageUrl">
   </div>
+  </div>
+
 </template>
 
 <script>export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      ping: null
+      msg: 'Meubels zijn net mensen, maar zijn mensen ook net meubels?',
+      naam: '',
+      submittedNaam: '',
+      ping: null,
+      meubels: null
+    }
+  },
+  methods: {
+    searchMeubel: function (event) {
+      const axios = require('axios')
+
+      if (this.naam.length === 0) {
+        this.submittedNaam = ''
+        this.meubels = null
+        alert('Voer een naam in')
+      } else {
+        this.submittedNaam = this.naam
+        axios.get('https://meubel-backend.herokuapp.com/LeenBakker/Meubel?name=' + this.naam).then(response => (this.meubels = response.data))
+      }
     }
   },
   mounted () {
     const axios = require('axios')
-
-    axios
-      .get('http://localhost:8080/ping')
-      .then(response => (this.ping = response.data))
+    axios.get('https://meubel-backend.herokuapp.com/ping').then(response => (this.ping = response.data))
   }
 }
 </script>
