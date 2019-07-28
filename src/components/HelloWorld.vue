@@ -1,6 +1,8 @@
 <template>
+
   <div class="hello">
     <h1>{{ msg }}</h1>
+  <h2>{{ping}}</h2>
     <h2>Essential Links</h2>
     <ul>
       <li>
@@ -83,13 +85,20 @@
   </div>
 </template>
 
-<script>
-export default {
+<script>export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      ping: null
     }
+  },
+  mounted () {
+    const axios = require('axios')
+
+    axios
+      .get('https://meubel-backend.herokuapp.com/ping')
+      .then(response => (this.ping = response))
   }
 }
 </script>
