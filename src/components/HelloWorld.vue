@@ -2,7 +2,7 @@
 
   <div class="hello">
     <h1>{{ msg }}</h1>
-  <h2>{{ping}}</h2>
+  <h2>{{ping.message}}</h2>
     <h2>Essential Links</h2>
     <ul>
       <li>
@@ -97,8 +97,8 @@
     const axios = require('axios')
 
     axios
-      .get('https://meubel-backend.herokuapp.com/ping')
-      .then(response => (this.ping = response))
+      .get('http://localhost:8080/ping')
+      .then(response => (this.ping = response.data))
   }
 }
 </script>
