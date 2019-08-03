@@ -8,19 +8,23 @@
         <h2>Maar zijn meubels ook net mensen?</h2>
       </div>
       <div class="page"> <input v-model="naam" placeholder="vul in" />
-    <button v-on:click="searchMeubel">naam</button></div>
+        <button v-on:click="searchMeubel">naam</button>
+      </div>
       <div class="page">
-         <h1 v-if="meubels !== null && meubels.length > 0">Ja! {{submittedNaam}} is een meubel!</h1>
-    <h1 v-if="meubels !== null && meubels.length === 0">Helaas, {{submittedNaam}} is geen meubel</h1>
-
-    <div v-for="meubel in meubels" v-bind:key="meubel.name">
-      {{ meubel.name }}
-      <img :src="meubel.imageUrl" />
-    </div>
-
+          <h1 v-if="meubels !== null && meubels.length > 0">Ja! {{submittedNaam}} is een</h1>
+          <h1 v-if="meubels !== null && meubels.length === 0">Helaas, {{submittedNaam}} is geen meubel</h1>
+          <div v-for="meubel in meubels.slice(0,1)" v-bind:key="meubel.name">
+              {{ meubel.name }}
+              <img :src="meubel.imageUrl"/>
+          </div>
       </div>
       <div class="page">
         <button v-on:click="again">Nog eens zoeken</button>
+        <h3 v-if="meubels !== null && meubels.length > 0">Nee, {{submittedNaam}} is toch meer een: </h3>
+        <div v-for="meubel in meubels.slice(1)" v-bind:key="meubel.name">
+            {{ meubel.name }}
+            <img :src="meubel.imageUrl" />
+         </div>
       </div>
     </div>
   </div>
@@ -39,7 +43,7 @@ export default {
       naam: '',
       submittedNaam: '',
       ping: null,
-      meubels: null
+      meubels: []
     }
   },
   methods: {
@@ -72,8 +76,6 @@ export default {
       window.jQuery = require('jquery')
       window.$ = window.jQuery
       // eslint-disable-next-line no-undef
-      console.log($('#flipbook'))
-      // eslint-disable-next-line no-undef
       $('#flipbook').turn(
         'previous'
       )
@@ -84,12 +86,10 @@ export default {
       .get('https://meubel-backend.herokuapp.com/ping')
       .then(response => (this.ping = response.data))
     // eslint-disable-next-line no-undef
-    console.log($('#flipbook'))
-    // eslint-disable-next-line no-undef
     $('#flipbook').turn({
       page: 2,
-      width: 968,
-      height: 650,
+      width: window.innerWidth,
+      height: window.innerWidth * 0.75,
       when: {
         start: function (event, pageObject, corner) {
           if (corner != null) {
@@ -120,9 +120,6 @@ a {
   color: #42b983;
 }
 div.page{
-  background:#ffffff;
-}
-template.hello{
-  background: #f0f0f0;
+  background:#f0f0f0;
 }
 </style>
