@@ -1,6 +1,6 @@
 <template class="hello">
   <div>
-    <div id="flipbook">
+    <div id="flipbook" class="flipbook">
       <div class="page">
       </div>
       <div class="page">
@@ -79,7 +79,22 @@ export default {
       $('#flipbook').turn(
         'previous'
       )
+    },
+    resizeHandler: function (event) {
+      console.log('test')
+      window.jQuery = require('jquery')
+      window.$ = window.jQuery
+      // eslint-disable-next-line no-undef
+      $('#flipbook').turn(
+        'size', window.innerWidth * 0.80, window.innerHeight * 0.80
+      )
     }
+  },
+  created () {
+    window.addEventListener('resize', this.resizeHandler)
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.resizeHandler)
   },
   mounted () {
     axios
@@ -88,8 +103,8 @@ export default {
     // eslint-disable-next-line no-undef
     $('#flipbook').turn({
       page: 2,
-      width: window.innerWidth,
-      height: window.innerWidth * 0.75,
+      width: window.innerWidth * 0.80,
+      height: window.innerHeight * 0.80,
       when: {
         start: function (event, pageObject, corner) {
           if (corner != null) {
@@ -121,5 +136,9 @@ a {
 }
 div.page{
   background:#f0f0f0;
+}
+div.flipbook
+{
+  margin: 0 auto;
 }
 </style>
