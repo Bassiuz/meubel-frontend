@@ -7,8 +7,14 @@
         <h1>Mensen zijn net meubels</h1>
         <h2>Maar zijn meubels ook net mensen?</h2>
       </div>
-      <div class="page"> <input v-model="naam" placeholder="vul in" />
+      <div class="page">
+        <h3>Welk meubel ben jij?</h3>
+        <input v-model="naam" placeholder="vul in" />
         <button v-on:click="searchMeubel">naam</button>
+         <div v-for="meubel in randomMeubels" v-bind:key="meubel.name">
+            {{ meubel.name }}
+            <img :src="meubel.imageUrl" />
+         </div>
       </div>
       <div class="page">
           <h1 v-if="meubels !== null && meubels.length > 0">Ja! {{submittedNaam}} is een</h1>
@@ -43,7 +49,8 @@ export default {
       naam: '',
       submittedNaam: '',
       ping: null,
-      meubels: []
+      meubels: [],
+      randomMeubels: []
     }
   },
   methods: {
@@ -98,8 +105,8 @@ export default {
   },
   mounted () {
     axios
-      .get('https://meubel-backend.herokuapp.com/ping')
-      .then(response => (this.ping = response.data))
+      .get('https://meubel-backend.herokuapp.com/LeenBakker/Meubel?name=Bas')
+      .then(response => (this.randomMeubels = response.data))
     // eslint-disable-next-line no-undef
     $('#flipbook').turn({
       page: 2,
