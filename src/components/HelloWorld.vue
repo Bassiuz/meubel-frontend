@@ -125,13 +125,13 @@ h2 {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 h1{
-  font-size: 600%;
+  font-size: 6vw;
   color: #FFDA1A;
   text-align: left;
   padding: 20px;
 }
 h2{
-  font-size: 400%;
+  font-size: 4vw;
   color: #f0f0f0;
   text-align: right;
   padding: 20px;
