@@ -3,7 +3,7 @@
     <div id="flipbook" class="flipbook">
       <div class="page">
       </div>
-      <div class="page">
+      <div class="frontpage">
         <h1>Mensen zijn net meubels</h1>
         <h2>Maar zijn meubels ook net mensen?</h2>
       </div>
@@ -122,6 +122,19 @@ export default {
 h1,
 h2 {
   font-weight: normal;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+h1{
+  font-size: 600%;
+  color: #FFDA1A;
+  text-align: left;
+  padding: 20px;
+}
+h2{
+  font-size: 400%;
+  color: #f0f0f0;
+  text-align: right;
+  padding: 20px;
 }
 ul {
   list-style-type: none;
@@ -137,8 +150,12 @@ a {
 div.page{
   background:#f0f0f0;
 }
+div.frontpage{
+  background:#0051BA;
+}
 div.flipbook
 {
+  overflow: hidden;
   margin: 0 auto;
 }
 </style>
