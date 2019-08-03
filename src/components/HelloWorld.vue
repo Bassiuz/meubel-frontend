@@ -1,27 +1,27 @@
-<template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-
+<template class="hello">
+  <div>
     <div id="flipbook">
-      <div class="hard">Turn.js</div>
-      <div class="hard"></div>
-      <div>Page 1</div>
-      <div>Page 2</div>
-      <div>Page 3</div>
-      <div>Page 4</div>
-      <div class="hard"></div>
-      <div class="hard"></div>
-    </div>
-
-    <input v-model="naam" placeholder="vul in" />
-    <button v-on:click="searchMeubel">naam</button>
-
-    <h1 v-if="meubels !== null && meubels.length > 0">Ja! {{submittedNaam}} is een meubel!</h1>
+      <div class="page">
+      </div>
+      <div class="page">
+        <h1>Mensen zijn net meubels</h1>
+        <h2>Maar zijn meubels ook net mensen?</h2>
+      </div>
+      <div class="page"> <input v-model="naam" placeholder="vul in" />
+    <button v-on:click="searchMeubel">naam</button></div>
+      <div class="page">
+         <h1 v-if="meubels !== null && meubels.length > 0">Ja! {{submittedNaam}} is een meubel!</h1>
     <h1 v-if="meubels !== null && meubels.length === 0">Helaas, {{submittedNaam}} is geen meubel</h1>
 
     <div v-for="meubel in meubels" v-bind:key="meubel.name">
       {{ meubel.name }}
       <img :src="meubel.imageUrl" />
+    </div>
+
+      </div>
+      <div class="page">
+        <button v-on:click="again">Nog eens zoeken</button>
+      </div>
     </div>
   </div>
 </template>
@@ -29,8 +29,7 @@
 <script>
 window.jQuery = require('jquery')
 window.$ = window.jQuery
-
-require('turn.js')
+const axios = require('axios')
 
 export default {
   name: 'HelloWorld',
@@ -45,7 +44,8 @@ export default {
   },
   methods: {
     searchMeubel: function (event) {
-      const axios = require('axios')
+      window.jQuery = require('jquery')
+      window.$ = window.jQuery
 
       if (this.naam.length === 0) {
         this.submittedNaam = ''
@@ -53,17 +53,33 @@ export default {
         alert('Voer een naam in')
       } else {
         this.submittedNaam = this.naam
+        // eslint-disable-next-line no-undef
+        console.log($('#flipbook'))
+        // eslint-disable-next-line no-undef
+        $('#flipbook').turn(
+          'next'
+        )
         axios
           .get(
             'https://meubel-backend.herokuapp.com/LeenBakker/Meubel?name=' +
               this.naam
           )
-          .then(response => (this.meubels = response.data))
+          .then(response => (
+            this.meubels = response.data))
       }
+    },
+    again: function (event) {
+      window.jQuery = require('jquery')
+      window.$ = window.jQuery
+      // eslint-disable-next-line no-undef
+      console.log($('#flipbook'))
+      // eslint-disable-next-line no-undef
+      $('#flipbook').turn(
+        'previous'
+      )
     }
   },
   mounted () {
-    const axios = require('axios')
     axios
       .get('https://meubel-backend.herokuapp.com/ping')
       .then(response => (this.ping = response.data))
@@ -71,9 +87,16 @@ export default {
     console.log($('#flipbook'))
     // eslint-disable-next-line no-undef
     $('#flipbook').turn({
-      width: 400,
-      height: 300,
-      autoCenter: true
+      page: 2,
+      width: 968,
+      height: 650,
+      when: {
+        start: function (event, pageObject, corner) {
+          if (corner != null) {
+            return event.preventDefault()
+          }
+        }
+      }
     })
   }
 }
@@ -95,5 +118,11 @@ li {
 }
 a {
   color: #42b983;
+}
+div.page{
+  background:#ffffff;
+}
+template.hello{
+  background: #f0f0f0;
 }
 </style>

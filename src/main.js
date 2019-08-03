@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+require('./lib/turn.min.js')
 
 Vue.config.productionTip = false
 
