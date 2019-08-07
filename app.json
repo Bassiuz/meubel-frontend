@@ -1,0 +1,6 @@
+{
+  "name": "Meubel Front-end",
+  "description": "Front-end to the website 'Meubels zijn net mensen'",
+  "repository": "https://github.com/Bassiuz/meubel-frontend",
+  "keywords": ["Vue", "Heroku", "Deployment"]
+}
